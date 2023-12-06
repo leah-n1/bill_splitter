@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import '../app/routes/app_pages.dart';
 import 'screen/home_screen/view/home_screen.dart';
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       fallbackLocale: const Locale('en'),
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
+ 
     );
   }
 }
