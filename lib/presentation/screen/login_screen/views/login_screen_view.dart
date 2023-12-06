@@ -54,8 +54,14 @@ class LoginScreenView extends GetView<LoginScreenController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Image.asset('assets/images/fingerprint.png'),
-                      const SizedBox(height: 16),
+                      Container(
+                        height: 88,
+                        width:76,
+                        decoration: const BoxDecoration(
+                        image: DecorationImage(image:AssetImage('assets/images/fingerprint.png')
+                        )),
+                       ),
+                      const SizedBox(height: 8),
                       const Text('Biometrics Login',
                           style: TextStyle(
                           fontSize: 12,
@@ -76,8 +82,13 @@ class LoginScreenView extends GetView<LoginScreenController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Image.asset('assets/images/username.png'),
-                      const SizedBox(height: 16),
+                      Container(
+                        height: 88,
+                        width:76,
+                        decoration: const BoxDecoration(
+                        image: DecorationImage(image: AssetImage('assets/images/username.png'),fit: BoxFit.fitHeight),
+                      ),),
+                      const SizedBox(height:4),
                       const Text('Username',
                           style: TextStyle(
                           fontSize: 12,
