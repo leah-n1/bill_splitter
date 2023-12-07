@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-class MPListTile extends StatelessWidget {
+class MPListTile extends StatefulWidget {
   final Color backgroundColor;
   final double boarderRadius;
   final Size size;
@@ -10,7 +10,7 @@ class MPListTile extends StatelessWidget {
   final String placeholder2;
   final String placeholder3;
   final String placeholder4;
-  final bool isCredit;
+  final bool isDebit;
 
   const MPListTile(
       {super.key,
@@ -22,16 +22,21 @@ class MPListTile extends StatelessWidget {
       this.boarderRadius = 0.0,
       this.margin = const EdgeInsets.all(10),
       required this.placeholder4,
-      this.isCredit = true});
+      this.isDebit = true});
 
+  @override
+  State<MPListTile> createState() => _MPListTileState();
+}
+
+class _MPListTileState extends State<MPListTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height > 668 ? (size.height * 0.16) : (size.height * 0.20),
-      margin: const EdgeInsets.all(16),
+      height: widget.size.height > 668 ? (widget.size.height * 0.16) : (widget.size.height * 0.20),
+      margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(boarderRadius),
+        color: widget.backgroundColor,
+        borderRadius: BorderRadius.circular(widget.boarderRadius),
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.05),
@@ -47,20 +52,60 @@ class MPListTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
+            flex: 2,
+            child: Container(
+              color: widget.backgroundColor,
+              margin: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.placeholder1,
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontWeight: FontWeight.w800),
+                  ),
+                  Text(
+                    widget.placeholder2,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                  Text(
+                    widget.placeholder3,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                  Text(
+                    widget.placeholder4,
+                    style: TextStyle(
+                      color: widget.isDebit
+                          ? const Color(0xFFDC6565)
+                          : const Color(0xFF7DA07A),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
             flex: 1,
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
-                color: isCredit
+                color: widget.isDebit
                     ? const Color(0xFFDC6565)
                     : const Color(0xFF7DA07A),
               ),
               margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-              height: size.height * 0.10,
-              width: size.height * 0.10,
+              height: widget.size.height * 0.10,
+              width: widget.size.height * 0.10,
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child: isCredit
+                child: widget.isDebit
                     ? Image.asset(
                         'assets/images/icon_tile_debit.png',
                         fit: BoxFit.fitHeight,
@@ -72,46 +117,7 @@ class MPListTile extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              color: backgroundColor,
-              margin: const EdgeInsets.fromLTRB(0, 20, 20, 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    placeholder1,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.w800),
-                  ),
-                  Text(
-                    placeholder2,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
-                  Text(
-                    placeholder3,
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
-                  Text(
-                    placeholder4,
-                    style: TextStyle(
-                      color: isCredit
-                          ? const Color(0xFFDC6565)
-                          : const Color(0xFF7DA07A),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
+          
         ],
       ),
     );

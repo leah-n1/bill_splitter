@@ -38,69 +38,73 @@ class LoginScreenView extends GetView<LoginScreenController> {
                     fontWeight: FontWeight.normal,
                     color: Colors.black)),
             const SizedBox(height: 8),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 180,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        height: 88,
-                        width:76,
-                        decoration: const BoxDecoration(
-                        image: DecorationImage(image:AssetImage('assets/images/fingerprint.png')
-                        )),
-                       ),
-                      const SizedBox(height: 8),
-                      const Text('Biometrics Login',
-                          style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black)),
-                    ],
-                  ),
-                ),
-                const SizedBox(width:8),
-                Container(
-                  height: 180,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: AppColors.secondary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        height: 88,
-                        width:76,
-                        decoration: const BoxDecoration(
-                        image: DecorationImage(image: AssetImage('assets/images/username.png'),fit: BoxFit.fitHeight),
-                      ),),
-                      const SizedBox(height:4),
-                      const Text('Username',
-                          style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ]),
-      ));
+               Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 180,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Container(
+                            height: 88,
+                            width:76,
+                            decoration: const BoxDecoration(
+                            image: DecorationImage(image:AssetImage('assets/images/fingerprint.png')
+                            )),
+                           ),
+                          const SizedBox(height: 8),
+                          const Text('Biometrics Login',
+                              style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width:8),
+                    InkWell(
+                      onTap: (){ controller.fetchProfile();},
+                      child: Container(
+                        height: 180,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              height: 88,
+                              width:76,
+                              decoration: const BoxDecoration(
+                              image: DecorationImage(image: AssetImage('assets/images/username.png'),fit: BoxFit.fitHeight),
+                            ),),
+                            const SizedBox(height:4),
+                            const Text('Username',
+                                style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              
+            ]),
+          ),
+      );
     }
 }
 
