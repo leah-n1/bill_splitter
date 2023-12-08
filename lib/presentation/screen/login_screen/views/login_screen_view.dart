@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../../../app/routes/app_pages.dart';
 import '../../../app_colors.dart';
 import '../controllers/login_screen_controller.dart';
 

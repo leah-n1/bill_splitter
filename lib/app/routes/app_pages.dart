@@ -78,7 +78,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.TRANSACTION_DETAILS_SCREEN,
-      page: () => const TransactionDetailsScreenView(),
+      page: () => TransactionDetailsScreenView(),
       binding: TransactionDetailsScreenBinding(),
     ),
   ];
