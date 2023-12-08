@@ -101,7 +101,7 @@ class _MPListTileState extends State<MPListTile> {
                         'assets/images/icon_tile_debit.png',
                         fit: BoxFit.fitHeight,
                       )
-                    : Container(),
+                    : Container()
               ),
             ),
           ),
