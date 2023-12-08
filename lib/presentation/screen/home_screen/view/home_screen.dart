@@ -125,17 +125,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             boxShadow: const [
                               BoxShadow(
                                 color: Color(0x26000000),
-                                blurRadius: 40,
+                                blurRadius: 20,
                                 offset: Offset(0, 2),
                                 spreadRadius: 0,
                               ),
                             ],
-                            color: Colors.white,
+                         
                             borderRadius: BorderRadius.circular(8)),
                         child: Container(
                           width: 60,
                           height: 60,
-                          color: Colors.white,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color:AppColors.secondary,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x26000000),
+                                blurRadius: 40,
+                                offset: Offset(0, 2),
+                                spreadRadius: 0,
+                              ),],
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
                             child: Image.asset(
@@ -196,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                       color: AppColors.white,
-                      borderRadius: BorderRadius.circular(8)),
+                      borderRadius: BorderRadius.circular(12)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,7 +254,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,68 +275,63 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Container accountDetails() {
     return Container(
-      padding: const EdgeInsets.all(16),
-      height: 150,
-      margin: const EdgeInsets.only(top: 40, left: 30, right: 30),
+      padding: const EdgeInsets.all(32),
+      height: 160,
+      
       decoration: BoxDecoration(
           boxShadow: const [
             BoxShadow(
               color: Color(0x26000000),
               blurRadius: 0,
               offset: Offset(0, 2),
-              spreadRadius: 2,
+              spreadRadius: 0,
             )
           ],
           color: AppColors.primaryBase,
           borderRadius: const BorderRadius.only(
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(16),
+            bottomLeft: Radius.circular(16),
           )),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  'Available Balance',
-                  style: TextStyle(
-                      color: AppColors.dark,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12),
-                ),
-                Text(
-                  'PHP --, --',
-                  style: TextStyle(
-                      color: AppColors.dark,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 24),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Account Number:',
-                  style: TextStyle(
-                      color: AppColors.dark,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 10),
-                )
-              ],
-            ),
-          ]),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Text(
+            'Available Balance',
+            style: TextStyle(
+                color: AppColors.dark,
+                fontWeight: FontWeight.normal,
+                fontSize: 12),
+          ),
+          Text(
+            'PHP --, --',
+            style: TextStyle(
+                color: AppColors.dark,
+                fontWeight: FontWeight.bold,
+                fontSize: 30),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Account Number:',
+            style: TextStyle(
+                color: AppColors.dark,
+                fontWeight: FontWeight.w600,
+                fontSize: 10),
+          )
+        ],
+      ),
     );
   }
 }
 
 AppBar homeAppBar() {
   return AppBar(
-    leading: Padding(
+   leading: Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-      child: Image.asset('assets/images/banking_app_logo.png'),
+      child: Image.asset('assets/images/banklogo_with_border.png',),
     ),
-    backgroundColor: AppColors.white,
+    backgroundColor: AppColors.primaryBase,
     title: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,7 +364,7 @@ AppBar homeAppBar() {
         ],
       ),
     ],
-    elevation: 2,
+   
     shadowColor: Colors.black,
   );
 }

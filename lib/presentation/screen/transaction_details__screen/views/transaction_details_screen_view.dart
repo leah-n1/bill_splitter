@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_x/presentation/app_colors.dart';
 
 import '../controllers/transaction_details_screen_controller.dart';
 
@@ -11,8 +12,9 @@ class TransactionDetailsScreenView
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TransactionDetailsScreenView'),
-        centerTitle: true,
+        backgroundColor: AppColors.primaryBase,
+        title: const Text('Transactions', style: TextStyle(fontSize:16,fontWeight:FontWeight.bold),),
+        centerTitle: false,
       ),
       body: const Center(
         child: Text(
