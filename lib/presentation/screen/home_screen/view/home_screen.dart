@@ -277,7 +277,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.all(32),
       height: 160,
-      
       decoration: BoxDecoration(
           boxShadow: const [
             BoxShadow(

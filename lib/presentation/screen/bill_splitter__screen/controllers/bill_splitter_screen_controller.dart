@@ -4,6 +4,8 @@ class BillSplitterScreenController extends GetxController {
   //TODO: Implement BillSplitterScreenController
 
   final count = 0.obs;
+
+  get value => null;
   @override
   void onInit() {
     super.onInit();
@@ -20,4 +22,6 @@ class BillSplitterScreenController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  void updateValue(int? i) {}
 }
