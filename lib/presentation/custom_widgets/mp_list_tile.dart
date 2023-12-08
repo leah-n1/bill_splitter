@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class MPListTile extends StatefulWidget {
@@ -9,7 +10,7 @@ class MPListTile extends StatefulWidget {
   final String placeholder1;
   final String placeholder2;
   final String placeholder3;
-  final String placeholder4;
+
   final bool isDebit;
 
   const MPListTile(
@@ -21,7 +22,6 @@ class MPListTile extends StatefulWidget {
       required this.placeholder3,
       this.boarderRadius = 0.0,
       this.margin = const EdgeInsets.all(10),
-      required this.placeholder4,
       this.isDebit = true});
 
   @override
@@ -52,10 +52,10 @@ class _MPListTileState extends State<MPListTile> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               color: widget.backgroundColor,
-              margin: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+              margin: const EdgeInsets.fromLTRB(8,8,20,8),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,9 +63,11 @@ class _MPListTileState extends State<MPListTile> {
                 children: [
                   Text(
                     widget.placeholder1,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontWeight: FontWeight.w800),
+                    style: TextStyle(
+                        color: widget.isDebit
+                    ? const Color(0xFFDC6565)
+                    : const Color(0xFF7DA07A),
+                        fontWeight: FontWeight.w800,),
                   ),
                   Text(
                     widget.placeholder2,
@@ -79,41 +81,27 @@ class _MPListTileState extends State<MPListTile> {
                       color: Color.fromARGB(255, 0, 0, 0),
                     ),
                   ),
-                  Text(
-                    widget.placeholder4,
-                    style: TextStyle(
-                      color: widget.isDebit
-                          ? const Color(0xFFDC6565)
-                          : const Color(0xFF7DA07A),
-                    ),
-                  ),
-                ],
+                  ],
               ),
             ),
           ),
           Expanded(
             flex: 1,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
-                color: widget.isDebit
-                    ? const Color(0xFFDC6565)
-                    : const Color(0xFF7DA07A),
-              ),
+                ),
               margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
               height: widget.size.height * 0.10,
               width: widget.size.height * 0.10,
               child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: widget.isDebit
                     ? Image.asset(
                         'assets/images/icon_tile_debit.png',
                         fit: BoxFit.fitHeight,
                       )
-                    : Image.asset(
-                        'assets/images/icon_tile_credit.png',
-                        fit: BoxFit.fitHeight,
-                      ),
+                    : Container(),
               ),
             ),
           ),
