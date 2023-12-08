@@ -1,27 +1,43 @@
 import 'package:get/get.dart';
 
 class BillSplitterScreenController extends GetxController {
-  //TODO: Implement BillSplitterScreenController
+ RxInt selectedDivider = 0.obs;
 
-  final count = 0.obs;
-
-  get value => null;
-  @override
-  void onInit() {
-    super.onInit();
+ void updateSelectedDivider(int index) {
+    selectedDivider.value = index;
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
-
-  void updateValue(int? i) {}
 }
+
+
+
+
+
+
+
+
+//  final count = 0.obs;
+
+//   get value => null;
+//   @override
+//   void onInit() {
+//     super.onInit();
+//   }
+
+//   @override
+//   void onReady() {
+//     super.onReady();
+//   }
+
+//   @override
+//   void onClose() {
+//     super.onClose();
+//   }
+
+//   void increment() => count.value++;
+
+//   void selectValue(int? i) {}
+
+
+
+  
+
