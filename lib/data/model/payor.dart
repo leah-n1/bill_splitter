@@ -5,26 +5,26 @@ class Payor {
   String payorName;
   double payable;
   int percentage;
+  num accountNumber;
   Payor({
     required this.payorName,
     required this.payable,
     required this.percentage,
+    required this.accountNumber,
   });
-  
-
-
-
 
 
   Payor copyWith({
     String? payorName,
     double? payable,
     int? percentage,
+    num? accountNumber,
   }) {
     return Payor(
       payorName: payorName ?? this.payorName,
       payable: payable ?? this.payable,
       percentage: percentage ?? this.percentage,
+      accountNumber: accountNumber ?? this.accountNumber,
     );
   }
 
@@ -33,6 +33,7 @@ class Payor {
       'payorName': payorName,
       'payable': payable,
       'percentage': percentage,
+      'accountNumber': accountNumber,
     };
   }
 
@@ -41,6 +42,7 @@ class Payor {
       payorName: map['payorName'] as String,
       payable: map['payable'] as double,
       percentage: map['percentage'] as int,
+      accountNumber: map['accountNumber'] as num,
     );
   }
 
@@ -49,7 +51,9 @@ class Payor {
   factory Payor.fromJson(String source) => Payor.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Payor(payorName: $payorName, payable: $payable, percentage: $percentage)';
+  String toString() {
+    return 'Payor(payorName: $payorName, payable: $payable, percentage: $percentage, accountNumber: $accountNumber)';
+  }
 
   @override
   bool operator ==(covariant Payor other) {
@@ -58,9 +62,16 @@ class Payor {
     return 
       other.payorName == payorName &&
       other.payable == payable &&
-      other.percentage == percentage;
+      other.percentage == percentage &&
+      other.accountNumber == accountNumber;
   }
 
   @override
-  int get hashCode => payorName.hashCode ^ payable.hashCode ^ percentage.hashCode;
+  int get hashCode {
+    return payorName.hashCode ^
+      payable.hashCode ^
+      percentage.hashCode ^
+      accountNumber.hashCode;
+  }
 }
+ 

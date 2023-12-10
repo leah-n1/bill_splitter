@@ -10,7 +10,7 @@ enum TransactionDetailType { all, debit, credit }
 class TransactionDetailsScreenView
   extends GetView<TransactionDetailsScreenController> {
  final Set<TransactionDetailType> typeTransaction = <TransactionDetailType>{};
- final List<Transaction> listtransaction = [];
+ 
   
 
 

@@ -1,12 +1,25 @@
+import 'dart:ffi';
+
 import 'package:get/get.dart';
 
 class BillSplitterScreenController extends GetxController {
  RxInt selectedDivider = 0.obs;
+ RxDouble sliderValue=20.0.obs;
 
  void updateSelectedDivider(int index) {
     selectedDivider.value = index;
   }
+
+void updateSlider(double sliderPercentage){
+  sliderValue.value = sliderPercentage;
+  refresh();
+ 
 }
+
+}
+
+
+
 
 
 

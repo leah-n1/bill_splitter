@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
+import '../../../../data/model/transactions.dart';
 import '../views/transaction_details_screen_view.dart';
 
 
 
 class TransactionDetailsScreenController extends GetxController {
-  // Rx<TransactionDetailType> selectedType = TransactionDetailType.all.obs;
+RxList<Transaction>? listtransactions = <Transaction>[].obs;
  RxSet<TransactionDetailType> selectedType = <TransactionDetailType>{TransactionDetailType.all}.obs;
 
   void updateSelectedType(Set<TransactionDetailType> newSelection) {
