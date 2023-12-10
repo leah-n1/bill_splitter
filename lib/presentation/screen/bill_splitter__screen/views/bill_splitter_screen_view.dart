@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_x/presentation/app_colors.dart';
+import 'package:intl/intl.dart';
 
 import '../controllers/bill_splitter_screen_controller.dart';
 
@@ -49,6 +50,11 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                           FilteringTextInputFormatter.allow(
                               RegExp(r'^\d+\.?\d{0,2}')),
                         ],
+                        onChanged: (value) {
+                          String formattedValue = NumberFormat.decimalPattern()
+                              .format(int.parse(value.replaceAll(',', '')));
+                          print(formattedValue);
+                        },
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(16, 4, 16, 4),
                           hintText: 'Enter amount here',
@@ -78,8 +84,8 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                                 percentageController.selectedDivider.value ==
                                     index,
                             onSelected: (bool selected) {
-                              percentageController.updateSelectedDivider(
-                                  selected ? index : null!);
+                              percentageController
+                                  .updateSelectedDivider(selected ? index : 0);
                             });
                       },
                     ).toList(),
@@ -87,8 +93,8 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                 ],
               ),
             ),
-           Container(
-              margin: const EdgeInsets.only(top:8, left: 20, right: 20),
+            Container(
+              margin: const EdgeInsets.only(top: 8, left: 20, right: 20),
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
                     color: const Color(0xff1D1617).withOpacity(0.11),
@@ -105,7 +111,10 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                         const TextStyle(color: Color(0xffDDDADA), fontSize: 14),
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12),
-                      child: Image.asset('assets/images/search_icon.png',height:16,),
+                      child: Image.asset(
+                        'assets/images/search_icon.png',
+                        height: 16,
+                      ),
                     ),
                     suffixIcon: SizedBox(
                       width: 100,
@@ -122,7 +131,8 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Image.asset(
-                                  'assets/images/expandarrowdown.png',height: 16),
+                                  'assets/images/expandarrowdown.png',
+                                  height: 16),
                             ),
                           ],
                         ),

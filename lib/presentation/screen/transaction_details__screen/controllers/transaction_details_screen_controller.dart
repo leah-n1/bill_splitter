@@ -1,23 +1,39 @@
 import 'package:get/get.dart';
+import '../views/transaction_details_screen_view.dart';
+
+
 
 class TransactionDetailsScreenController extends GetxController {
-  //TODO: Implement TransactionDetailsScreenController
+  // Rx<TransactionDetailType> selectedType = TransactionDetailType.all.obs;
+ RxSet<TransactionDetailType> selectedType = <TransactionDetailType>{TransactionDetailType.all}.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void updateSelectedType(Set<TransactionDetailType> newSelection) {
+  selectedType.clear();
+  selectedType.addAll(newSelection);
+    update();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
+  
 }
+
+
+ 
+
+
+// final count = 0.obs;
+//   @override
+//   void onInit() {
+//     super.onInit();
+//   }
+
+//   @override
+//   void onReady() {
+//     super.onReady();
+//   }
+
+//   @override
+//   void onClose() {
+//     super.onClose();
+//   }
+
+//   void increment() => count.value++;

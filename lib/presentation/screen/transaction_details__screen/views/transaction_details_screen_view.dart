@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_x/presentation/app_colors.dart';
 import 'package:get_x/presentation/custom_widgets/mp_list_tile.dart';
-
+import '../../../../data/model/transactions.dart';
 import '../controllers/transaction_details_screen_controller.dart';
 
-enum TransactionDetailType { all, debit, credit }
 
+enum TransactionDetailType { all, debit, credit }
 class TransactionDetailsScreenView
-    extends GetView<TransactionDetailsScreenController> {
-  final Set<TransactionDetailType> typeTransaction = <TransactionDetailType>{};
+  extends GetView<TransactionDetailsScreenController> {
+ final Set<TransactionDetailType> typeTransaction = <TransactionDetailType>{};
+ final List<Transaction> listtransaction = [];
   
 
 
@@ -17,9 +18,10 @@ class TransactionDetailsScreenView
 
   @override
   Widget build(BuildContext context) {
-   var screenSize = MediaQuery.of(context).size;
-     
-    var listView = ListView.builder(
+  final TransactionDetailsScreenController controller = Get.put(TransactionDetailsScreenController());
+  var screenSize = MediaQuery.of(context).size;
+   
+   var listView = ListView.builder(
                     shrinkWrap: true,
                     itemCount: 5,
                     scrollDirection: Axis.vertical,
@@ -41,38 +43,39 @@ class TransactionDetailsScreenView
         ),
         centerTitle: false,
       ),
-      body:  Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-              const SizedBox(height: 16),
-              SegmentedButton<TransactionDetailType>(
-              segments: const <ButtonSegment<TransactionDetailType>>[
-                ButtonSegment<TransactionDetailType>(
-                  value: TransactionDetailType.all,
-                  label: Text('All',)),
-                ButtonSegment<TransactionDetailType>(
-                  value: TransactionDetailType.all,
-                  label: Text('Debit')),
-                 ButtonSegment<TransactionDetailType>(
-                  value: TransactionDetailType.all,
-                  label: Text('Credit')),
-                ],
-              selected: typeTransaction,
-              onSelectionChanged: (Set<TransactionDetailType> selectedType) {
-                // Handle the selection change here
-              },
-              emptySelectionAllowed: true,
-            ),
-            SizedBox(height: 8),
-            
-                SizedBox(
-                  child: listView,
+      body:  Obx(
+        () {return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                  const SizedBox(height: 16),
+                  SegmentedButton<TransactionDetailType>(
+                  segments: const <ButtonSegment<TransactionDetailType>>[
+                    ButtonSegment<TransactionDetailType>(
+                      value: TransactionDetailType.all,
+                      label: Text('All',)),
+                    ButtonSegment<TransactionDetailType>(
+                      value: TransactionDetailType.debit,
+                      label: Text('Debit')),
+                     ButtonSegment<TransactionDetailType>(
+                      value: TransactionDetailType.credit,
+                      label: Text('Credit')),
+                    ],
+                  selected: controller.selectedType,
+                  onSelectionChanged: (Set<TransactionDetailType> newSelection) {
+                   controller.updateSelectedType(newSelection);
+          },
+                  emptySelectionAllowed: true,
                 ),
-               
-             
-          ],
-        ),
+                const SizedBox(height: 8),
+                
+                    SizedBox(
+                      child: listView,
+                    ),
+                   ],
+            ),
+          );
+        }
       ),
     );
   }
