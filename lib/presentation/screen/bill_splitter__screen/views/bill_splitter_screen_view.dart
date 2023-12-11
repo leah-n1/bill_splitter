@@ -17,20 +17,21 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
     var screenSize = MediaQuery.of(context).size;
     final List<String> items = ['Evenly', 'Manually'];
     final List<Payor> payors = [];
+  
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryBase,
-        title: const Text(
-          'Bill Splitter',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        appBar: AppBar(
+          backgroundColor: AppColors.primaryBase,
+          title: const Text(
+            'Bill Splitter',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: false,
         ),
-        centerTitle: false,
-      ),
-      body: 
-      // Obx(() {
-      //   return 
-        Column(
+        body:
+            // Obx(() {
+            //   return
+            Column(
           children: [
             const SizedBox(height: 8),
             Center(
@@ -77,25 +78,24 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                 children: [
                   const Text('Divide:'),
                   const SizedBox(width: 30),
-                  Obx(
-                    () {
-                      return Wrap(
-                        spacing: 5.0,
-                        children: List<Widget>.generate(
-                          items.length,
-                          (int index) {
-                            return ChoiceChip(
-                                label: Text(items[index]),
-                                selected: controller.selectedDivider.value == index,
-                                onSelected: (bool selected) {
-                                  controller
-                                      .updateSelectedDivider(selected ? index : 0);
-                                });
-                          },
-                        ).toList(),
-                      );
-                    }
-                  ),
+                  Obx(() {
+                    return Wrap(
+                      spacing: 5.0,
+                      children: List<Widget>.generate(
+                        items.length,
+                        (int index) {
+                          return ChoiceChip(
+                              label: Text(items[index]),
+                              selected:
+                                  controller.selectedDivider.value == index,
+                              onSelected: (bool selected) {
+                                controller.updateSelectedDivider(
+                                    selected ? index : 0);
+                              });
+                        },
+                      ).toList(),
+                    );
+                  }),
                 ],
               ),
             ),
@@ -152,95 +152,85 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             payorList(screenSize, controller)
           ],
         ));
-      // }),
-   //  );
+    // }),
+    //  );
   }
 
-
-
-
-
-
-
-
-  Container payorList(Size screenSize, BillSplitterScreenController controller) {
+  Container payorList(
+      Size screenSize, BillSplitterScreenController controller) {
     return Container(
-            margin: const EdgeInsets.fromLTRB(16, 36, 16, 16),
-            padding: const EdgeInsets.all(4),
-            height: screenSize.height * .50,
-            child: ListView.separated(
-              scrollDirection: Axis.vertical,
-              itemCount: 2,
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
-              itemBuilder: (context, index) {
-                final UniqueKey itemKey= UniqueKey();
-                return Dismissible(
-                  key: itemKey,
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    width: 200,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color.fromARGB(71, 158, 158, 158),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Payors Name'),
-                                Text(
-                                  '25%',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            ),
-                            Spacer(),
-                            Text(
-                              'Php 200.00',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: -1),
-                            )
-                          ],
-                        ),
-                        
-                        Obx(
-                          () {
-                            return Container(
-                              height:20,
-                              color: AppColors.white,
-                             
-                              child: Slider(
-                                key: itemKey,
-                                value: controller.sliderValue.value,
-                                max: 100,
-                                onChanged: (double value) {
-                                controller.updateSlider(value);
-                                  print(' controller.sliderValue.value ${ controller.sliderValue.value}');
-                                
-                                },
-                              ),
-                            );
-                          }
-                        )
-                      ],
-                    ),
+      margin: const EdgeInsets.fromLTRB(16, 36, 16, 16),
+      padding: const EdgeInsets.all(4),
+      height: screenSize.height * .50,
+      child: ListView.separated(
+        scrollDirection: Axis.vertical,
+        itemCount: 3,
+        separatorBuilder: (context, index) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          final UniqueKey itemKey = UniqueKey();
+          return Dismissible(
+            key: itemKey,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              width: 200,
+              height: 100,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: const Color.fromARGB(71, 158, 158, 158),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Payors Name'),
+                          Obx(() => Text(
+                                '${controller.getFormattedPercentage(controller.sliderValue[index].value)}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600),
+                              ))
+                        ],
+                      ),
+                      const Spacer(),
+                      const Text(
+                        'Php 200.00',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, letterSpacing: -1),
+                      )
+                    ],
                   ),
-                );
-              },
+                  Obx(() {
+                    return Container(
+                      height: 20,
+                      color: AppColors.white,
+                      child: Slider(
+                        key: itemKey,
+                        value: controller.sliderValue[index].value,
+                        min: 0,
+                        max: 100,
+                        onChanged: (double value) {
+                          controller.updateSlider(index, value);
+                          print(
+                              ' controller.sliderValue.value ${controller.sliderValue[index].value}');
+                        },
+                      ),
+                    );
+                  })
+                ],
+              ),
             ),
           );
+        },
+      ),
+    );
   }
 }
