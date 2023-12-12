@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../data/model/payor.dart';
 import '../controllers/bill_splitter_screen_controller.dart';
+import 'package:input_slider/input_slider.dart';
 
 class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   const BillSplitterScreenView({Key? key}) : super(key: key);
@@ -13,8 +16,8 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    final List<String> items = ['Evenly', 'Manually'];
     final List<Payor> payors = [];
+    final List<String> divider = ['Evenly', 'Manually'];
 
     return Scaffold(
         appBar: AppBar(
@@ -33,14 +36,12 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             const SizedBox(height: 8),
             amountDisplay(screenSize),
             const SizedBox(height: 4),
-            division(items, controller),
+            division(divider, controller),
             friendsSearchBar(),
             payorList(screenSize, controller)
           ],
         ));
   }
-
-
 
   Container friendsSearchBar() {
     return Container(
@@ -94,7 +95,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   }
 
   Padding division(
-      List<String> items, BillSplitterScreenController controller) {
+      List<String> divider, BillSplitterScreenController controller) {
     return Padding(
       padding: const EdgeInsets.only(left: 36, right: 36),
       child: Row(
@@ -106,11 +107,11 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             return Wrap(
               spacing: 5.0,
               children: List<Widget>.generate(
-                items.length,
+                divider.length,
                 (int index) {
                   return ChoiceChip(
-                      label: Text(items[index]),
-                      selected: controller.selectedDivider.value == index,
+                      label: Text(divider[index]),
+                      selected: controller.selectedDivider == index,
                       onSelected: (bool selected) {
                         controller.updateSelectedDivider(selected ? index : 0);
                       });
@@ -139,14 +140,18 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
               const Text('Total Amount',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
               TextField(
+                controller: controller.amountController.value,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
                 ],
                 onChanged: (value) {
-                  String formattedValue = NumberFormat.decimalPattern()
-                      .format(int.parse(value.replaceAll(',', '')));
-                  print(formattedValue);
+                  print('value updatwd $value');
+                  controller.calculateSubtotal(amount: double.parse(value), numberOfPayees:2 );
+                  // controller.amountController.value.text = '';
+                  // String formattedValue = NumberFormat.decimalPattern()
+                  //     .format(int.parse(value.replaceAll(',', '')));
+                  // print(formattedValue);
                 },
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.fromLTRB(16, 4, 16, 4),
@@ -168,73 +173,80 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
       height: screenSize.height * .50,
       child: ListView.separated(
         scrollDirection: Axis.vertical,
-        itemCount: 3,
+        itemCount: 2,
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
           final UniqueKey itemKey = UniqueKey();
           return Dismissible(
-            key: itemKey,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              width: 200,
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: const Color.fromARGB(71, 158, 158, 158),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
+              key: itemKey,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                width: 200,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color.fromARGB(71, 158, 158, 158),
+                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Payors Name'),
-                          Obx(() => Text(
-                                '${controller.getFormattedPercentage(controller.sliderValue[index].value)}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600),
-                              ))
+                          const Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Payors Name'),
+                            ],
+                          ),
+                          const Spacer(),
+                          Container(
+                            width: 100,
+                            height: 30,
+                            color: Colors.amber,
+                            child: Obx(() {
+                              return TextField(
+                                controller: controller.subtotalController.value,
+                                style:const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: -1),
+                              );
+                            }),
+                          )
                         ],
                       ),
-                      const Spacer(),
-                      const Text(
-                        'Php 200.00',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, letterSpacing: -1),
-                      )
-                    ],
-                  ),
-                  Obx(() {
-                    return Container(
-                      height: 20,
-                      color: AppColors.white,
-                      child: Slider(
-                        key: itemKey,
-                        value: controller.sliderValue[index].value,
-                        min: 0,
-                        max: 100,
-                        onChanged: (double value) {
-                          controller.updateSlider(index, value);
-                          print(
-                              ' controller.sliderValue.value ${controller.sliderValue[index].value}');
-                        },
-                      ),
-                    );
-                  })
-                ],
-              ),
-            ),
-          );
+                      Container(
+                          padding: const EdgeInsets.all(4),
+                          height: 50,
+                          color: AppColors.white,
+                          child: InputSlider(
+                            leading: const Icon(Icons.percent),
+                            onChange: (double value) {
+                              controller.updateSlider(numofpayees: 2);
+                            },
+                            min: 0,
+                            max: 100,
+                            decimalPlaces: 0,
+                            defaultValue: 0,
+                          ))
+                    ]),
+              ));
         },
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+

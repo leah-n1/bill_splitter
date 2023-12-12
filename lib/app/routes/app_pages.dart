@@ -28,7 +28,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.BILL_SPLITTER_OPTIONS;
+  static const INITIAL = Routes.BILL_SPLITTER_SCREEN;
 
   static final routes = [
     GetPage(
