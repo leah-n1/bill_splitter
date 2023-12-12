@@ -12,18 +12,15 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
 
   @override
   Widget build(BuildContext context) {
-    final BillSplitterScreenController controller =
-        Get.put(BillSplitterScreenController());
     var screenSize = MediaQuery.of(context).size;
     final List<String> items = ['Evenly', 'Manually'];
     final List<Payor> payors = [];
-  
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primaryBase,
           title: const Text(
-            'Bill Splitter',
+            'Split Bill',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           centerTitle: false,
@@ -34,126 +31,133 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             Column(
           children: [
             const SizedBox(height: 8),
-            Center(
-              child: Card(
-                clipBehavior: Clip.hardEdge,
-                elevation: 4,
-                child: Container(
-                  color: AppColors.primaryBase,
-                  padding: const EdgeInsets.fromLTRB(8, 16, 8, 4),
-                  height: 100,
-                  width: screenSize.width * .8,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text('Total Amount',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12)),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d+\.?\d{0,2}')),
-                        ],
-                        onChanged: (value) {
-                          String formattedValue = NumberFormat.decimalPattern()
-                              .format(int.parse(value.replaceAll(',', '')));
-                          print(formattedValue);
-                        },
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(16, 4, 16, 4),
-                          hintText: 'Enter amount here',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            amountDisplay(screenSize),
             const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.only(left: 36, right: 36),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text('Divide:'),
-                  const SizedBox(width: 30),
-                  Obx(() {
-                    return Wrap(
-                      spacing: 5.0,
-                      children: List<Widget>.generate(
-                        items.length,
-                        (int index) {
-                          return ChoiceChip(
-                              label: Text(items[index]),
-                              selected:
-                                  controller.selectedDivider.value == index,
-                              onSelected: (bool selected) {
-                                controller.updateSelectedDivider(
-                                    selected ? index : 0);
-                              });
-                        },
-                      ).toList(),
-                    );
-                  }),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 16, left: 20, right: 20),
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    color: const Color(0xff1D1617).withOpacity(0.11),
-                    blurRadius: 40,
-                    spreadRadius: 0.0)
-              ]),
-              child: TextField(
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.all(15),
-                    hintText: 'Search contacts',
-                    hintStyle:
-                        const TextStyle(color: Color(0xffDDDADA), fontSize: 14),
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Image.asset(
-                        'assets/images/search_icon.png',
-                        height: 16,
-                      ),
-                    ),
-                    suffixIcon: SizedBox(
-                      width: 100,
-                      child: IntrinsicHeight(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const VerticalDivider(
-                              color: Colors.black,
-                              indent: 10,
-                              endIndent: 10,
-                              thickness: 0.1,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.asset(
-                                  'assets/images/expandarrowdown.png',
-                                  height: 16),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none)),
-              ),
-            ),
+            division(items, controller),
+            friendsSearchBar(),
             payorList(screenSize, controller)
           ],
         ));
-    // }),
-    //  );
+  }
+
+
+
+  Container friendsSearchBar() {
+    return Container(
+      margin: const EdgeInsets.only(top: 16, left: 20, right: 20),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            color: const Color(0xff1D1617).withOpacity(0.11),
+            blurRadius: 40,
+            spreadRadius: 0.0)
+      ]),
+      child: TextField(
+        decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.all(15),
+            hintText: 'Search contacts',
+            hintStyle: const TextStyle(color: Color(0xffDDDADA), fontSize: 14),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Image.asset(
+                'assets/images/search_icon.png',
+                height: 16,
+              ),
+            ),
+            suffixIcon: SizedBox(
+              width: 100,
+              child: IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const VerticalDivider(
+                      color: Colors.black,
+                      indent: 10,
+                      endIndent: 10,
+                      thickness: 0.1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset('assets/images/expandarrowdown.png',
+                          height: 16),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none)),
+      ),
+    );
+  }
+
+  Padding division(
+      List<String> items, BillSplitterScreenController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 36, right: 36),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const Text('Divide:'),
+          const SizedBox(width: 30),
+          Obx(() {
+            return Wrap(
+              spacing: 5.0,
+              children: List<Widget>.generate(
+                items.length,
+                (int index) {
+                  return ChoiceChip(
+                      label: Text(items[index]),
+                      selected: controller.selectedDivider.value == index,
+                      onSelected: (bool selected) {
+                        controller.updateSelectedDivider(selected ? index : 0);
+                      });
+                },
+              ).toList(),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Center amountDisplay(Size screenSize) {
+    return Center(
+      child: Card(
+        clipBehavior: Clip.hardEdge,
+        elevation: 4,
+        child: Container(
+          color: AppColors.primaryBase,
+          padding: const EdgeInsets.fromLTRB(8, 16, 8, 4),
+          height: 100,
+          width: screenSize.width * .8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Text('Total Amount',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+              TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                ],
+                onChanged: (value) {
+                  String formattedValue = NumberFormat.decimalPattern()
+                      .format(int.parse(value.replaceAll(',', '')));
+                  print(formattedValue);
+                },
+                decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  hintText: 'Enter amount here',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Container payorList(
