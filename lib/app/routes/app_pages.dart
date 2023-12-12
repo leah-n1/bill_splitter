@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../../presentation/screen/bill_splitter__screen/bindings/bill_splitter_screen_binding.dart';
 import '../../presentation/screen/bill_splitter__screen/views/bill_splitter_screen_view.dart';
+import '../../presentation/screen/bill_splitter_options/bindings/bill_splitter_options_binding.dart';
+import '../../presentation/screen/bill_splitter_options/views/bill_splitter_from_transaction_view.dart';
 import '../../presentation/screen/borrow_screen/bindings/borrow_screen_binding.dart';
 import '../../presentation/screen/borrow_screen/views/borrow_screen_view.dart';
 import '../../presentation/screen/home_detail_screen/bindings/home_detail_screen_binding.dart';
@@ -80,6 +82,11 @@ class AppPages {
       name: _Paths.TRANSACTION_DETAILS_SCREEN,
       page: () => TransactionDetailsScreenView(),
       binding: TransactionDetailsScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.BILL_SPLITTER_OPTIONS,
+      page: () => const BillSplitterOptionsView(),
+      binding: BillSplitterOptionsBinding(),
     ),
   ];
 }

@@ -6,25 +6,30 @@ class Payor {
   double payable;
   int percentage;
   num accountNumber;
+  String userID;
   Payor({
     required this.payorName,
     required this.payable,
     required this.percentage,
     required this.accountNumber,
+    required this.userID,
   });
 
+  
 
   Payor copyWith({
     String? payorName,
     double? payable,
     int? percentage,
     num? accountNumber,
+    String? userID,
   }) {
     return Payor(
       payorName: payorName ?? this.payorName,
       payable: payable ?? this.payable,
       percentage: percentage ?? this.percentage,
       accountNumber: accountNumber ?? this.accountNumber,
+      userID: userID ?? this.userID,
     );
   }
 
@@ -34,6 +39,7 @@ class Payor {
       'payable': payable,
       'percentage': percentage,
       'accountNumber': accountNumber,
+      'userID': userID,
     };
   }
 
@@ -43,6 +49,7 @@ class Payor {
       payable: map['payable'] as double,
       percentage: map['percentage'] as int,
       accountNumber: map['accountNumber'] as num,
+      userID: map['userID'] as String,
     );
   }
 
@@ -52,7 +59,7 @@ class Payor {
 
   @override
   String toString() {
-    return 'Payor(payorName: $payorName, payable: $payable, percentage: $percentage, accountNumber: $accountNumber)';
+    return 'Payor(payorName: $payorName, payable: $payable, percentage: $percentage, accountNumber: $accountNumber, userID: $userID)';
   }
 
   @override
@@ -63,7 +70,8 @@ class Payor {
       other.payorName == payorName &&
       other.payable == payable &&
       other.percentage == percentage &&
-      other.accountNumber == accountNumber;
+      other.accountNumber == accountNumber &&
+      other.userID == userID;
   }
 
   @override
@@ -71,7 +79,7 @@ class Payor {
     return payorName.hashCode ^
       payable.hashCode ^
       percentage.hashCode ^
-      accountNumber.hashCode;
+      accountNumber.hashCode ^
+      userID.hashCode;
   }
 }
- 

@@ -12,7 +12,8 @@ abstract class Routes {
   static const MANAGE_BUDGET_SCREEN = _Paths.MANAGE_BUDGET_SCREEN;
   static const BORROW_SCREEN = _Paths.BORROW_SCREEN;
   static const INVEST_SCREEN = _Paths.INVEST_SCREEN;
-  static const TRANSACTION_DETAILS_SCREEN =_Paths.TRANSACTION_DETAILS_SCREEN;
+  static const TRANSACTION_DETAILS_SCREEN = _Paths.TRANSACTION_DETAILS_SCREEN;
+  static const BILL_SPLITTER_OPTIONS =_Paths.BILL_SPLITTER_OPTIONS;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const BORROW_SCREEN = '/borrow-screen';
   static const INVEST_SCREEN = '/invest-screen';
   static const TRANSACTION_DETAILS_SCREEN = '/transaction-details-screen';
+  static const BILL_SPLITTER_OPTIONS = '/bill-splitter-options';
 }
