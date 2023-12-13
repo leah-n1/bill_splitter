@@ -1,14 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_x/presentation/app_colors.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../data/model/payor.dart';
 import '../controllers/bill_splitter_screen_controller.dart';
-import 'package:input_slider/input_slider.dart';
 
 class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   const BillSplitterScreenView({Key? key}) : super(key: key);
@@ -38,7 +34,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             const SizedBox(height: 4),
             division(divider, controller),
             friendsSearchBar(),
-            payorList(screenSize, controller)
+            payorList(screenSize, controller),
           ],
         ));
   }
@@ -147,7 +143,10 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                 ],
                 onChanged: (value) {
                   print('value updatwd $value');
-                  controller.calculateSubtotal(amount: double.parse(value), numberOfPayees:2 );
+                  controller.calculateSubtotal(
+                      amount: (value), numberOfPayees: 6);
+                  controller.calculatePercentage(
+                      amount: (value), numberOfPayees: 6);
                   // controller.amountController.value.text = '';
                   // String formattedValue = NumberFormat.decimalPattern()
                   //     .format(int.parse(value.replaceAll(',', '')));
@@ -167,13 +166,14 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
 
   Container payorList(
       Size screenSize, BillSplitterScreenController controller) {
+    
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 36, 16, 16),
       padding: const EdgeInsets.all(4),
       height: screenSize.height * .50,
       child: ListView.separated(
         scrollDirection: Axis.vertical,
-        itemCount: 2,
+        itemCount: 6,
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
           final UniqueKey itemKey = UniqueKey();
@@ -210,29 +210,74 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                             height: 30,
                             color: Colors.amber,
                             child: Obx(() {
-                              return TextField(
-                                controller: controller.subtotalController.value,
-                                style:const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: -1),
+                              return Expanded(
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  readOnly: controller.selectedDivider.value == 0
+                                      ? true
+                                      : false,
+                                  controller: controller.subtotalController.value,
+                                  style: const TextStyle(
+                                      
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: -1),
+                                ),
                               );
                             }),
                           )
                         ],
                       ),
                       Container(
-                          padding: const EdgeInsets.all(4),
+                          padding: const EdgeInsets.all(8),
                           height: 50,
                           color: AppColors.white,
-                          child: InputSlider(
-                            leading: const Icon(Icons.percent),
-                            onChange: (double value) {
-                              controller.updateSlider(numofpayees: 2);
-                            },
-                            min: 0,
-                            max: 100,
-                            decimalPlaces: 0,
-                            defaultValue: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    color: Color.fromARGB(255, 27, 194, 150),
+                                   child: Obx(() {
+                                      return TextField(
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        readOnly:
+                                            controller.selectedDivider.value ==
+                                                    0
+                                                ? true
+                                                : false,
+                                        textAlign: TextAlign.center,
+                                        controller: controller
+                                            .percentageController.value,
+                                        onChanged: (value) {
+                                          controller.percentageController;
+                                        },
+                                      );
+                                    }),
+                                  )),
+                              Expanded(
+                                flex: 6,
+                                child: SizedBox(
+                                  child: Obx(() {
+                                    return Slider(
+                                      min: 0,
+                                      max: 100,
+                                      key: itemKey,
+                                      value: controller.sliderValue.value,
+                                      onChanged:
+                                          controller.selectedDivider.value == 0
+                                              ? null
+                                              : (value) {
+                                                  controller.sliderValue.value =
+                                                      value;
+                                                },
+                                    );
+                                  }),
+                                ),
+                              )
+                            ],
                           ))
                     ]),
               ));
@@ -241,12 +286,3 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
     );
   }
 }
-
-
-
-
-
-
-
-
-
