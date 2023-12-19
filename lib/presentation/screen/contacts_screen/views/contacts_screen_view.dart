@@ -42,8 +42,10 @@ class ContactsScreenView extends GetView<ContactsScreenController> {
                   itemBuilder: ((context, index) {
                     final contact = controller.listOfcontacts[index];
                     return InkWell(
+                      
                       onTap: () {
                         controller.selectPayees(contact);
+                        controller.getCountofPayees();
                       },
                       child: Container(
                         height: 80,
