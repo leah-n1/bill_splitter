@@ -146,9 +146,7 @@ updateTotalAmount(String input) {
 }
 
 
-getPayeeDetails(Contact payee ){
-  return listOfPayees.add(payee);
-}
+
 
 
 

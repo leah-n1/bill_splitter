@@ -40,36 +40,43 @@ class ContactsScreenView extends GetView<ContactsScreenController> {
                   scrollDirection: Axis.vertical,
                   itemCount: controller.listOfcontacts.length,
                   itemBuilder: ((context, index) {
-                    return Container(
-                      height: 80,
-                      width: 200,
-                      padding: EdgeInsets.fromLTRB(16, 8, 4, 16),
-                      decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          borderRadius: BorderRadius.circular(12)
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                '${controller.listOfcontacts[index].name}',
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20, fontWeight: FontWeight.bold,),
-                              )),
-                          Expanded(
-                              flex: 1,
-                              child: Text(
-                                  'Account no: ${controller.listOfcontacts[index].accountNumber}',
+                    final contact = controller.listOfcontacts[index];
+                    return InkWell(
+                      onTap: () {
+                        controller.selectPayees(contact);
+                      },
+                      child: Container(
+                        height: 80,
+                        width: 200,
+                        padding: EdgeInsets.fromLTRB(16, 8, 4, 16),
+                        decoration: BoxDecoration(
+                            color: AppColors.secondary,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                  '${controller.listOfcontacts[index].name}',
                                   style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold))),
-                        ],
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )),
+                            Expanded(
+                                flex: 1,
+                                child: Text(
+                                    'Account no: ${controller.listOfcontacts[index].accountNumber}',
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold))),
+                          ],
+                        ),
                       ),
                     );
                   })),
