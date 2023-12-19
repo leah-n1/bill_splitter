@@ -13,7 +13,10 @@ abstract class Routes {
   static const BORROW_SCREEN = _Paths.BORROW_SCREEN;
   static const INVEST_SCREEN = _Paths.INVEST_SCREEN;
   static const TRANSACTION_DETAILS_SCREEN = _Paths.TRANSACTION_DETAILS_SCREEN;
-  static const BILL_SPLITTER_OPTIONS =_Paths.BILL_SPLITTER_OPTIONS;
+  static const BILL_SPLITTER_OPTIONS = _Paths.BILL_SPLITTER_OPTIONS;
+  static const TEST_WIDGET = _Paths.TEST_WIDGET;
+  static const BILL_SPLITTER_MANUALLLY_SCREEN =_Paths.BILL_SPLITTER_MANUALLLY_SCREEN;
+  static const CONTACTS_SCREEN =_Paths.CONTACTS_SCREEN;
 }
 
 abstract class _Paths {
@@ -29,4 +32,8 @@ abstract class _Paths {
   static const INVEST_SCREEN = '/invest-screen';
   static const TRANSACTION_DETAILS_SCREEN = '/transaction-details-screen';
   static const BILL_SPLITTER_OPTIONS = '/bill-splitter-options';
+  static const TEST_WIDGET = '/test-widget';
+  static const BILL_SPLITTER_MANUALLLY_SCREEN =
+      '/bill-splitter-manuallly-screen';
+  static const CONTACTS_SCREEN = '/contacts-screen';
 }

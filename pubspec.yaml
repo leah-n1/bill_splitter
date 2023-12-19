@@ -35,6 +35,8 @@ dependencies:
   loading_animation_widget: ^1.2.0+4
   intl: ^0.18.0
   input_slider: ^0.3.1
+  http: ^0.13.5
+
 
 
   # The following adds the Cupertino Icons font to your application.

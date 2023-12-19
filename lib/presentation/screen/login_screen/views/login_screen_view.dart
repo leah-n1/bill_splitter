@@ -70,7 +70,7 @@ class LoginScreenView extends GetView<LoginScreenController> {
                     ),
                     const SizedBox(width:8),
                     InkWell(
-                      onTap: (){ controller.fetchProfile();},
+                      // onTap: (){ controller.fetchProfile();},
                       child: Container(
                         height: 180,
                         width: 150,

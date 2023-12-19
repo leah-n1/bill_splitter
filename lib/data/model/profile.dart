@@ -38,18 +38,13 @@ class Profile {
     return Profile(
       name: map['name'] as String,
       age: map['age'] as num,
-      friends: List<User>.from(
-        (map['friends'] as List<dynamic>).map<User>(
-          (x) => User.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      friends: List<User>.from((map['friends'] as List<dynamic>).map<User>((x) => User.fromMap(x as Map<String,dynamic>),),),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Profile.fromJson(String source) =>
-      Profile.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Profile.fromJson(String source) => Profile.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Profile(name: $name, age: $age, friends: $friends)';
@@ -57,10 +52,11 @@ class Profile {
   @override
   bool operator ==(covariant Profile other) {
     if (identical(this, other)) return true;
-
-    return other.name == name &&
-        other.age == age &&
-        listEquals(other.friends, friends);
+  
+    return 
+      other.name == name &&
+      other.age == age &&
+      listEquals(other.friends, friends);
   }
 
   @override

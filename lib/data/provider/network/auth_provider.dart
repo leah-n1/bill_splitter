@@ -14,7 +14,7 @@ class AuthProvider extends BaseService {
     );
   }
 
-  Future<Response> getProfile(String url) async {
+  Future<Response> getUser(String url) async {
     final requestHeaders = {
       'Content-Type': 'application/json',
     };

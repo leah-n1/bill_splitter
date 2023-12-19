@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_x/app/routes/app_pages.dart';
 import 'package:get_x/presentation/app_colors.dart';
+import '../../contacts_screen/controllers/contacts_screen_controller.dart';
 
-import '../../../../data/model/payor.dart';
+
+
 import '../controllers/bill_splitter_screen_controller.dart';
 
 class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   const BillSplitterScreenView({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    final List<Payor> payors = [];
+    ContactsScreenController listContacts = Get.put(ContactsScreenController()); 
+    // final ContactsScreenController c = Get.find();
+    // final List<Payor> payors = [];
     final List<String> divider = ['Evenly', 'Manually'];
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primaryBase,
           title: const Text(
-            'Split Bill',
+            'Split Bill Evenly',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           centerTitle: false,
@@ -76,8 +82,13 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/expandarrowdown.png',
-                          height: 16),
+                      child: InkWell(
+                        onTap:() {
+                          Get.toNamed(Routes.CONTACTS_SCREEN);
+                        },
+                        child: Image.asset('assets/images/expandarrowdown.png',
+                            height: 16),
+                      ),
                     ),
                   ],
                 ),
@@ -121,6 +132,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   }
 
   Center amountDisplay(Size screenSize) {
+    
     return Center(
       child: Card(
         clipBehavior: Clip.hardEdge,
@@ -135,27 +147,39 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             children: [
               const Text('Total Amount',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-              TextField(
-                controller: controller.amountController.value,
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
-                ],
-                onChanged: (value) {
-                  print('value updatwd $value');
-                  controller.calculateSubtotal(
-                      amount: (value), numberOfPayees: 6);
-                  controller.calculatePercentage(
-                      amount: (value), numberOfPayees: 6);
-                  // controller.amountController.value.text = '';
-                  // String formattedValue = NumberFormat.decimalPattern()
-                  //     .format(int.parse(value.replaceAll(',', '')));
-                  // print(formattedValue);
-                },
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(16, 4, 16, 4),
-                  hintText: 'Enter amount here',
-                ),
+              Obx(
+                () {
+                  return TextField(
+                    controller: controller.amountController.value,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                    ],
+                    onChanged: (value) {
+                      print('value updatwd $value');
+                      controller.updateTotalAmount(value);
+
+                  
+                      // controller.calculateSubtotal(
+                      //     amount: (value), numberOfPayees: 2);
+                  
+                      // controller.calculatePercentage(
+                      //     amount: (value), numberOfPayees: 2);
+                  
+                      // controller.calculateSliderValue(
+                      //     amount: (value), numberOfPayees: 2);
+                  
+                      // controller.amountController.value.text = '';
+                      // String formattedValue = NumberFormat.decimalPattern()
+                      //     .format(int.parse(value.replaceAll(',', '')));
+                      // print(formattedValue);
+                    },
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(16, 4, 16, 4),
+                      hintText: 'Enter amount here',
+                    ),
+                  );
+                }
               ),
             ],
           ),
@@ -166,17 +190,17 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
 
   Container payorList(
       Size screenSize, BillSplitterScreenController controller) {
-    
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 36, 16, 16),
       padding: const EdgeInsets.all(4),
       height: screenSize.height * .50,
       child: ListView.separated(
         scrollDirection: Axis.vertical,
-        itemCount: 6,
+        itemCount: 2,
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
           final UniqueKey itemKey = UniqueKey();
+
           return Dismissible(
               key: itemKey,
               child: Container(
@@ -210,18 +234,17 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                             height: 30,
                             color: Colors.amber,
                             child: Obx(() {
-                              return Expanded(
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                  readOnly: controller.selectedDivider.value == 0
-                                      ? true
-                                      : false,
-                                  controller: controller.subtotalController.value,
-                                  style: const TextStyle(
-                                      
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: -1),
-                                ),
+                              return TextField(
+                                textAlign: TextAlign.center,
+                                readOnly:
+                                    controller.selectedDivider.value == 0
+                                        ? true
+                                        : false,
+                                controller:
+                                    controller.subtotalController.value,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: -1),
                               );
                             }),
                           )
@@ -240,9 +263,11 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                                   flex: 2,
                                   child: Container(
                                     color: Color.fromARGB(255, 27, 194, 150),
-                                   child: Obx(() {
+                                    child: Obx(() {
                                       return TextField(
-                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
                                         readOnly:
                                             controller.selectedDivider.value ==
                                                     0
@@ -262,17 +287,17 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                                 child: SizedBox(
                                   child: Obx(() {
                                     return Slider(
-                                      min: 0,
-                                      max: 100,
+                                      min: 0.0,
+                                      max: 100.0,
                                       key: itemKey,
                                       value: controller.sliderValue.value,
                                       onChanged:
-                                          controller.selectedDivider.value == 0
-                                              ? null
-                                              : (value) {
+                                          controller.selectedDivider.value == 1
+                                              ? (value) {
                                                   controller.sliderValue.value =
                                                       value;
-                                                },
+                                                }
+                                              : null,
                                     );
                                   }),
                                 ),
