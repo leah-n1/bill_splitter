@@ -16,7 +16,7 @@ var availableFeatures = [
   Features(
     iconPath: 'assets/images/bill_splitter.png',
     service: 'Bill\nSplitter',
-    route: Routes.BILL_SPLITTER_SCREEN,
+    route: Routes.DEBIT_SCREEN,
   ),
   Features(
     iconPath: 'assets/images/manage_budget.png',

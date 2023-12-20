@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 12),
           ),
           Text(
-            'PHP ${controller.userProfile.value?.balance.toStringAsFixed(2)}',
+            'PHP ${controller.userProfile.value?.balance.toStringAsFixed(2) ?? '--,--'} ',
             style: TextStyle(
                 color: AppColors.dark,
                 fontWeight: FontWeight.bold,
@@ -327,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Account Number: ${controller.userProfile.value?.accountNumber}',
+            'Account Number: ${controller.userProfile.value?.accountNumber ?? '--,--'}',
             style: TextStyle(
                 color: AppColors.dark,
                 fontWeight: FontWeight.w600,
@@ -356,7 +356,7 @@ AppBar homeAppBar() {
               fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.dark),
         ),
         Text(
-          '${controller.userProfile.value?.firstName}',
+          '${controller.userProfile.value?.firstName ?? '--,--'}',
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.normal,
