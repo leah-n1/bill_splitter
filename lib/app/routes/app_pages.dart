@@ -106,7 +106,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CONTACTS_SCREEN,
-      page: () => const ContactsScreenView(),
+      page: () => ContactsScreenView(),
       binding: ContactsScreenBinding(),
     ),
   ];
