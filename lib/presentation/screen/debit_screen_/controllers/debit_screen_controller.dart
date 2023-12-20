@@ -66,20 +66,19 @@ class DebitScreenController extends GetxController {
        print(debitTransactions);
   }
 
-selectPayees(Transaction bill) {
-    if (!billtoPay.contains(bill)) {
-      billtoPay.add(bill);
-      print('selected $billtoPay');
-    } else {
-      removeBill(bill);
-    }
+selectBill(Transaction bill) {
+  if (!billtoPay.contains(bill)) {
+    billtoPay.clear(); 
+    billtoPay.add(bill); 
+    print('selected $billtoPay');
     update();
   }
+}
 
-removeBill (Transaction bill){
-    final billIndex= selectedBill.indexOf(bill);
-    selectedBill.remove(bill);
+// removeBill (Transaction bill){
+//     final billIndex= selectedBill.indexOf(bill);
+//     selectedBill.remove(bill);
 
 
 }
-}
+

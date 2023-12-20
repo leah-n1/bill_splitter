@@ -38,12 +38,12 @@ class DebitScreenView extends GetView<DebitScreenController> {
                     scrollDirection: Axis.vertical,
                     itemCount: controller.listOfDebitTransactions.length,
                     itemBuilder: ((context, index) {
-                      final transaction = controller.listOfDebitTransactions[index];
+                      final bill = controller.listOfDebitTransactions[index];
                       return InkWell(
                         // highlightColor: Colors.blue,
                         onTap: () {
-                          // controller.selectPayees(contact);
-                          // controller.getCountofPayees();
+                          controller.selectBill(bill);
+                        
                         },
                         child: Obx(() {
                           return Container(
@@ -52,7 +52,7 @@ class DebitScreenView extends GetView<DebitScreenController> {
                             padding: EdgeInsets.fromLTRB(16, 8, 4, 16),
                             decoration: BoxDecoration(
                                 color:
-                                    controller.listOfDebitTransactions.contains(transaction)
+                                    controller.billtoPay.contains(bill)
                                         ? AppColors.primaryBase
                                         : AppColors.secondary,
                                 borderRadius: BorderRadius.circular(12)),
