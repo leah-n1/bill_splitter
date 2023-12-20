@@ -13,17 +13,19 @@ class User {
   String id;
   String accountNumber;
   double balance;
-  List<Transaction> transactions;
-  List<Contact> contacts;
+  List<Transaction>? transactions;
+  List<Contact>? contacts;
   User({
     required this.firstName,
     required this.lastName,
     required this.id,
     required this.accountNumber,
     required this.balance,
-    required this.transactions,
-    required this.contacts,
+    this.transactions,
+    this.contacts,
   });
+
+  
 
   User copyWith({
     String? firstName,
@@ -53,8 +55,12 @@ class User {
     result.addAll({'id': id});
     result.addAll({'accountNumber': accountNumber});
     result.addAll({'balance': balance});
-    result.addAll({'transactions': transactions.map((x) => x.toMap()).toList()});
-    result.addAll({'contacts': contacts.map((x) => x.toMap()).toList()});
+    if(transactions != null){
+      result.addAll({'transactions': transactions!.map((x) => x?.toMap()).toList()});
+    }
+    if(contacts != null){
+      result.addAll({'contacts': contacts!.map((x) => x?.toMap()).toList()});
+    }
   
     return result;
   }
@@ -66,8 +72,8 @@ class User {
       id: map['id'] ?? '',
       accountNumber: map['accountNumber'] ?? '',
       balance: map['balance']?.toDouble() ?? 0.0,
-      transactions: List<Transaction>.from(map['transactions']?.map((x) => Transaction.fromMap(x))),
-      contacts: List<Contact>.from(map['contacts']?.map((x) => Contact.fromMap(x))),
+      transactions: map['transactions'] != null ? List<Transaction>.from(map['transactions']?.map((x) => Transaction.fromMap(x))) : null,
+      contacts: map['contacts'] != null ? List<Contact>.from(map['contacts']?.map((x) => Contact.fromMap(x))) : null,
     );
   }
 
@@ -105,3 +111,4 @@ class User {
       contacts.hashCode;
   }
 }
+

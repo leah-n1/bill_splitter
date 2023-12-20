@@ -8,6 +8,7 @@ class DebitScreenController extends GetxController {
   RxList<Transaction> listOfDebitTransactions = <Transaction>[].obs;
   RxList<Transaction>  billtoPay=<Transaction>[].obs;
   RxList<Transaction> selectedBill = <Transaction>[].obs;
+  RxDouble amountToSplit = 0.00.obs;
 
   @override
   void onInit() {

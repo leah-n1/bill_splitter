@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_x/app/routes/app_pages.dart';
 import 'package:get_x/presentation/app_colors.dart';
 
 import '../controllers/debit_screen_controller.dart';
 
 class DebitScreenView extends GetView<DebitScreenController> {
-  const DebitScreenView({Key? key}) : super(key: key);
+  DebitScreenView({Key? key}) : super(key: key);
+
+  var argumentAmount = Get.arguments;
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+     if (argumentAmount != null) {
+      controller.amountToSplit.value = argumentAmount;
+    }
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select a transaction',
@@ -43,6 +50,12 @@ class DebitScreenView extends GetView<DebitScreenController> {
                         // highlightColor: Colors.blue,
                         onTap: () {
                           controller.selectBill(bill);
+                          Get.offAllNamed(Routes.BILL_SPLITTER_SCREEN,
+                          arguments: {
+                            'billAmount':controller.amountToSplit
+                          }
+                          );
+
                         
                         },
                         child: Obx(() {

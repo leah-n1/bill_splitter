@@ -8,6 +8,23 @@ import 'package:get_x/presentation/app_colors.dart';
 import '../../../../app/routes/app_pages.dart';
 import '../controller/home_screen_controller.dart';
 
+
+
+class MyWidget extends StatefulWidget {
+  const MyWidget({super.key});
+
+  @override
+  State<MyWidget> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+
 class HomeScreen extends StatefulWidget {
   final String title;
 
@@ -24,13 +41,11 @@ class _HomeScreenState extends State<HomeScreen> {
   // HomeController controller = HomeController();
   final HomeScreenController controller = Get.put(HomeScreenController());
 
-  void _incrementCounter() {
-    // setState(() {
-    controller.counter++;
-    controller.counterPlus2.value = controller.counterPlus2.value + 2;
-    controller.counterPlus3.value = controller.counterPlus2.value + 3;
-    // });
-  }
+  
+  
+  
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontSize: 12),
           ),
           Text(
-            'PHP --, --',
+            'PHP ${controller.userProfile.value?.balance.toStringAsFixed(2)}',
             style: TextStyle(
                 color: AppColors.dark,
                 fontWeight: FontWeight.bold,
@@ -312,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Account Number:',
+            'Account Number: ${controller.userProfile.value?.accountNumber}',
             style: TextStyle(
                 color: AppColors.dark,
                 fontWeight: FontWeight.w600,
@@ -322,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
+
 
 AppBar homeAppBar() {
   return AppBar(
@@ -341,9 +356,9 @@ AppBar homeAppBar() {
               fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.dark),
         ),
         Text(
-          'User first name',
+          '${controller.userProfile.value?.firstName}',
           style: TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: FontWeight.normal,
               color: AppColors.dark),
         ),
@@ -366,4 +381,5 @@ AppBar homeAppBar() {
    
     shadowColor: Colors.black,
   );
+}
 }

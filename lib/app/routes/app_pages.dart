@@ -36,7 +36,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.DEBIT_SCREEN;
+  static const INITIAL = Routes.HOME;
 
   static final routes = [
     GetPage(
@@ -88,7 +88,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.TRANSACTION_DETAILS_SCREEN,
-      page: () => TransactionDetailsScreenView(),
+      page: () => const TransactionDetailsScreenView(),
       binding: TransactionDetailsScreenBinding(),
     ),
     GetPage(
@@ -108,12 +108,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CONTACTS_SCREEN,
-      page: () => const ContactsScreenView(),
+      page: () =>  ContactsScreenView(),
       binding: ContactsScreenBinding(),
     ),
     GetPage(
       name: _Paths.DEBIT_SCREEN,
-      page: () => const DebitScreenView(),
+      page: () => DebitScreenView(),
       binding: DebitScreenBinding(),
     ),
   ];

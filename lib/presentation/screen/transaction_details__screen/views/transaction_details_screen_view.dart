@@ -1,81 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_x/presentation/app_colors.dart';
-import 'package:get_x/presentation/custom_widgets/mp_list_tile.dart';
-import '../../../../data/model/transactions.dart';
+
 import '../controllers/transaction_details_screen_controller.dart';
 
 
-enum TransactionDetailType { all, debit, credit }
-class TransactionDetailsScreenView
-  extends GetView<TransactionDetailsScreenController> {
- final Set<TransactionDetailType> typeTransaction = <TransactionDetailType>{};
- 
-  
 
 
-  TransactionDetailsScreenView({Key? key}) : super(key: key);
 
+
+class TransactionDetailsScreenView extends GetView<TransactionDetailsScreenController> {
+  const TransactionDetailsScreenView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-  final TransactionDetailsScreenController controller = Get.put(TransactionDetailsScreenController());
-  var screenSize = MediaQuery.of(context).size;
-   
-   var listView = ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 5,
-                    scrollDirection: Axis.vertical,
-                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                    itemBuilder:(content,index){
-                      return MPListTile(
-                        size: Size(0,screenSize.height*.50),
-                        placeholder1: 'PHP 25,000',
-                        placeholder2: 'To or From:',
-                        placeholder3: 'Date ',
-                        );
-                    } );
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.primaryBase,
-        title: const Text(
-          'Transactions',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: false,
+        title: const Text('Transaction HIstory', style: TextStyle(fontSize: 16),),
+        centerTitle: true,
       ),
-      body:  Obx(
-        () {return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                  const SizedBox(height: 16),
-                  SegmentedButton<TransactionDetailType>(
-                  segments: const <ButtonSegment<TransactionDetailType>>[
-                    ButtonSegment<TransactionDetailType>(
-                      value: TransactionDetailType.all,
-                      label: Text('All',)),
-                    ButtonSegment<TransactionDetailType>(
-                      value: TransactionDetailType.debit,
-                      label: Text('Debit')),
-                     ButtonSegment<TransactionDetailType>(
-                      value: TransactionDetailType.credit,
-                      label: Text('Credit')),
-                    ],
-                  selected: controller.selectedType,
-                  onSelectionChanged: (Set<TransactionDetailType> newSelection) {
-                   controller.updateSelectedType(newSelection);
-          },
-                  emptySelectionAllowed: true,
-                ),
-                const SizedBox(height: 8),
-                
-                    SizedBox(
-                      child: listView,
-                    ),
-                   ],
-            ),
-          );
-        }
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 336,
+              height: screenSize.height * .80,
+              margin: const EdgeInsets.all(16),
+              child: Obx(() {
+                return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Container(
+                        height: 4,
+                        color: Colors.white,
+                      );
+                    },
+                    scrollDirection: Axis.vertical,
+                    itemCount: controller.listOfDebitTransactions.length,
+                    itemBuilder: ((context, index) {
+                      // final bill = controller.listOfDebitTransactions[index];
+                      return Obx(() {
+                        return Container(
+                          height: 100,
+                          width: 200,
+                          padding: const EdgeInsets.fromLTRB(16, 8, 4, 16),
+                          decoration: BoxDecoration(
+                              color: controller.listOfTransactions[index].type == 'Debit'
+                              ? Color.fromARGB(52, 229, 95, 95) : AppColors.secondary,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    'Php ${controller.listOfTransactions[index].amount.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )),
+                              Expanded(
+                                  flex: 1,
+                                  child: Text( 
+                                     controller.listOfTransactions[index].type == 'Debit'
+                                     ? 'Paid to: ${controller.listOfTransactions[index].description}'
+                                      : 'Received from: ${controller.listOfTransactions[index].description}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold))),
+                               Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                      controller.listOfDebitTransactions[index].date,
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal))),
+                            ],
+                          ),
+                        );
+                      });
+                    }));
+              }),
+            )
+          ],
+        ),
       ),
     );
   }
