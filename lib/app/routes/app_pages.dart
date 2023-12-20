@@ -10,6 +10,8 @@ import '../../presentation/screen/borrow_screen/bindings/borrow_screen_binding.d
 import '../../presentation/screen/borrow_screen/views/borrow_screen_view.dart';
 import '../../presentation/screen/contacts_screen/bindings/contacts_screen_binding.dart';
 import '../../presentation/screen/contacts_screen/views/contacts_screen_view.dart';
+import '../../presentation/screen/debit_screen_/bindings/debit_screen_binding.dart';
+import '../../presentation/screen/debit_screen_/views/debit_screen_view.dart';
 import '../../presentation/screen/home_detail_screen/bindings/home_detail_screen_binding.dart';
 import '../../presentation/screen/home_detail_screen/views/home_detail_screen_view.dart';
 import '../../presentation/screen/home_screen/bindings/home_screen_binding.dart';
@@ -34,7 +36,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.BILL_SPLITTER_SCREEN;
+  static const INITIAL = Routes.DEBIT_SCREEN;
 
   static final routes = [
     GetPage(
@@ -108,6 +110,11 @@ class AppPages {
       name: _Paths.CONTACTS_SCREEN,
       page: () => const ContactsScreenView(),
       binding: ContactsScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.DEBIT_SCREEN,
+      page: () => const DebitScreenView(),
+      binding: DebitScreenBinding(),
     ),
   ];
 }

@@ -14,7 +14,7 @@ class ContactsScreenController extends GetxController {
   void onInit() {
     super.onInit();
     fetchProfile();
-    getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
+    getContacts('https://run.mocky.io/v3/88395547-651a-4f66-8ead-fac57f2f3646');
   }
 
 
@@ -22,14 +22,14 @@ class ContactsScreenController extends GetxController {
   void onReady() {
     super.onReady();
     fetchProfile();
-    getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
+    getContacts('https://run.mocky.io/v3/88395547-651a-4f66-8ead-fac57f2f3646');
   }
 
 
   fetchProfile() async {
     try {
       List<Contact> returnValue = await getContacts(
-          "https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76");
+          'https://run.mocky.io/v3/88395547-651a-4f66-8ead-fac57f2f3646');
       listOfcontacts.value = returnValue;
     } catch (error) {
       print('Error fetching profile: $error');

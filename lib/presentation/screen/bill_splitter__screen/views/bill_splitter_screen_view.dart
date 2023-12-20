@@ -19,7 +19,7 @@ var  arguments = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
-    controller.listOfPayees =  arguments;
+    // controller.listOfPayees =  payeeController;
     var screenSize = MediaQuery.of(context).size;
      
     // final ContactsScreenController c = Get.find();
