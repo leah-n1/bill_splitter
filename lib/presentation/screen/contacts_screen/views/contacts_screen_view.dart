@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_x/app/routes/app_pages.dart';
 import 'package:get_x/presentation/app_colors.dart';
 
 import '../controllers/contacts_screen_controller.dart';
@@ -13,6 +14,14 @@ class ContactsScreenView extends GetView<ContactsScreenController> {
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(
+          onTap: () {Get.toNamed(Routes.BILL_SPLITTER_SCREEN, arguments: controller.selectedPayees);
+            controller.selectedPayees.length;
+          print(controller.selectedPayees.length);
+            
+          },
+          child: Icon(Icons.arrow_back)),
+
         backgroundColor: AppColors.primaryBase,
         title: const Text(
           'Contacts',

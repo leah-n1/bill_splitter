@@ -11,13 +11,17 @@ import '../../contacts_screen/controllers/contacts_screen_controller.dart';
 import '../controllers/bill_splitter_screen_controller.dart';
 
 class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
-  const BillSplitterScreenView({Key? key}) : super(key: key);
+   BillSplitterScreenView({Key? key}) : super(key: key);
+
+var  arguments = Get.arguments;
+
 
 
   @override
   Widget build(BuildContext context) {
+    controller.listOfPayees =  arguments;
     var screenSize = MediaQuery.of(context).size;
-    ContactsScreenController payeecontroller = Get.put(ContactsScreenController()); 
+     
     // final ContactsScreenController c = Get.find();
     // final List<Payor> payors = [];
     final List<String> divider = ['Evenly', 'Manually'];
@@ -41,7 +45,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             const SizedBox(height: 4),
             division(divider, controller),
             friendsSearchBar(),
-            payorList(screenSize, controller, payeecontroller),
+            payorList(screenSize, controller, controller.payeeController),
           ],
         ));
   }
@@ -190,7 +194,8 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   }
 
   Container payorList(
-      Size screenSize, BillSplitterScreenController controller, ContactsScreenController payeecontroller) {
+      Size screenSize, BillSplitterScreenController controller, ContactsScreenController? payeeController) {
+       
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 36, 16, 16),
       padding: const EdgeInsets.all(4),
@@ -199,14 +204,16 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
          () {
           return ListView.separated(
             scrollDirection: Axis.vertical,
-            itemCount: payeecontroller.selectedPayees.length,
+            itemCount: controller.payeeController?.selectedPayees.length ?? 0 ,
             separatorBuilder: (context, index) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
               final UniqueKey itemKey = UniqueKey();
           
               return Dismissible(
-                  onDismissed: (direction) {
-                    payeecontroller.removePayee(payeecontroller.selectedPayees[index]);
+                  onDismissed: (direction) { if (controller.payeeController?.selectedPayees == null ){
+                    controller.payeeController?.removePayee(controller.payeeController!.selectedPayees[index]);
+                  }
+                    
                     
                     
                   },
@@ -235,7 +242,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                                 children: [
                                   Obx(
                                     () {
-                                      return Text ('${payeecontroller.selectedPayees[index].name}');
+                                      return Text ('${controller.payeeController?.selectedPayees[index].name}');
                                     }
                                   )
                                 ],

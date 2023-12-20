@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_x/data/model/contact.dart';
 
+import '../../contacts_screen/controllers/contacts_screen_controller.dart';
+
+
+
 class BillSplitterScreenController extends GetxController {
+  ContactsScreenController? payeeController;
   RxList<String> divider = ['Evenly', 'Manually'].obs;
+  RxString totalAmount = '0.00'.obs;
   RxInt selectedDivider = 0.obs;
   RxDouble sliderValue = 0.0.obs;
   RxInt numberOfPayees = 0.obs;
+
  
   RxDouble percentage = 0.0.obs;
   final subtotalController = TextEditingController(text: "0.00").obs;
@@ -17,11 +24,14 @@ class BillSplitterScreenController extends GetxController {
   ).obs;
 
 
-   RxString totalAmount = '0.00'.obs;
    RxList<Contact> listOfPayees=<Contact>[].obs;
    RxInt selectedContacts =0.obs;
 
   
+  
+  onInit(){
+    payeeController = Get.put(ContactsScreenController());
+    }
   
   void updateSelectedDivider(int index) {
     selectedDivider.value = index;
@@ -33,7 +43,7 @@ class BillSplitterScreenController extends GetxController {
   }
 
   void calculateSubtotal(
-      {required String amount, required int numberOfPayees}) {
+      {required String amount, required int }) {
     try {
       if (amount == null || amount.isEmpty) {
         subtotalController.value.text = 'Php 0.00';

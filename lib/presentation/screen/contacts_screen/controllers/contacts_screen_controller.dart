@@ -9,6 +9,7 @@ class ContactsScreenController extends GetxController {
   RxList<Contact> selectedPayees = <Contact>[].obs;
   RxInt numofPayees = 0.obs;
 
+
   @override
   void onInit() {
     super.onInit();
