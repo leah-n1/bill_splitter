@@ -8,49 +8,53 @@ class ContactsScreenController extends GetxController {
   RxList<Contact> listOfcontacts = <Contact>[].obs;
   RxList<Contact> selectedPayees = <Contact>[].obs;
   RxInt numofPayees = 0.obs;
+  RxString amount = ''.obs;
 
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   fetchProfile();
+  //   getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
+  // }
 
   @override
-  void onInit() {
-    super.onInit();
-    fetchProfile();
-    getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
-  }
-
-
-   @override
   void onReady() {
     super.onReady();
     fetchProfile();
     getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
   }
 
-
   fetchProfile() async {
     try {
-      List<Contact> returnValue = await getContacts(
+      List<Contact>? returnValue = await getContacts(
           "https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76");
-      listOfcontacts.value = returnValue;
+      if (returnValue != null) {
+        listOfcontacts.value = returnValue;
+      }
     } catch (error) {
       print('Error fetching profile: $error');
     }
   }
 
-  Future<List<Contact>> getContacts(String url) async {
-    var data = await AuthProvider().getUser(url);
-    var response = data.body['user'];
-    var contactsData = response['contacts'] as List<dynamic>;
+  Future<List<Contact>?> getContacts(String url) async {
+    try {
+      var data = await AuthProvider().getUser(url);
+      if (data != null) {}
+      var response = data.body['user'];
 
-    List<Contact> contacts = contactsData.map((contactsData) {
-      return Contact(
-        name: contactsData['name'],
-        accountNumber: contactsData['accountNumber'],
-        // Add other fields if needed
-      );
-    }).toList();
-    print(contacts);
+      var contactsData = response['contacts'] as List<dynamic>;
 
-    return contacts;
+      List<Contact> contacts = contactsData.map((contactsData) {
+        return Contact(
+          name: contactsData['name'],
+          accountNumber: contactsData['accountNumber'],
+          // Add other fields if needed
+        );
+      }).toList();
+      print(contacts);
+
+      return contacts;
+    } catch (e) {}
   }
 
   selectPayees(Contact payees) {
@@ -70,12 +74,8 @@ class ContactsScreenController extends GetxController {
     update();
   }
 
-
-  removePayee (Contact payee){
-    final payeeIndex= selectedPayees.indexOf(payee);
+  removePayee(Contact payee) {
+    final payeeIndex = selectedPayees.indexOf(payee);
     selectedPayees.remove(payee);
-
- 
-
-}
+  }
 }
