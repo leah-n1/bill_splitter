@@ -57,13 +57,16 @@ class ContactsScreenController extends GetxController {
     if (!selectedPayees.contains(payees)) {
       selectedPayees.add(payees);
       print('selected $selectedPayees');
-      update();
+    } else {
+      removePayee(payees);
     }
+    update();
   }
 
   getCountofPayees() {
     numofPayees.value = selectedPayees.length;
     print('num of payees $numofPayees');
+    update();
   }
 
 
