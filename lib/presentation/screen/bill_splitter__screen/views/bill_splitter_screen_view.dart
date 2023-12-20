@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_x/app/routes/app_pages.dart';
+import 'package:get_x/data/model/contact.dart';
 import 'package:get_x/presentation/app_colors.dart';
 import '../../contacts_screen/controllers/contacts_screen_controller.dart';
 
@@ -16,7 +17,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    ContactsScreenController listContacts = Get.put(ContactsScreenController()); 
+    ContactsScreenController payeecontroller = Get.put(ContactsScreenController()); 
     // final ContactsScreenController c = Get.find();
     // final List<Payor> payors = [];
     final List<String> divider = ['Evenly', 'Manually'];
@@ -40,7 +41,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             const SizedBox(height: 4),
             division(divider, controller),
             friendsSearchBar(),
-            payorList(screenSize, controller),
+            payorList(screenSize, controller, payeecontroller),
           ],
         ));
   }
@@ -189,124 +190,137 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   }
 
   Container payorList(
-      Size screenSize, BillSplitterScreenController controller) {
+      Size screenSize, BillSplitterScreenController controller, ContactsScreenController payeecontroller) {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 36, 16, 16),
       padding: const EdgeInsets.all(4),
       height: screenSize.height * .50,
-      child: ListView.separated(
-        scrollDirection: Axis.vertical,
-        itemCount: 2,
-        separatorBuilder: (context, index) => const SizedBox(height: 8),
-        itemBuilder: (context, index) {
-          final UniqueKey itemKey = UniqueKey();
-
-          return Dismissible(
-              key: itemKey,
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                width: 200,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: const Color.fromARGB(71, 158, 158, 158),
-                ),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
+      child: Obx(
+         () {
+          return ListView.separated(
+            scrollDirection: Axis.vertical,
+            itemCount: payeecontroller.selectedPayees.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final UniqueKey itemKey = UniqueKey();
+          
+              return Dismissible(
+                  onDismissed: (direction) {
+                    payeecontroller.removePayee(payeecontroller.selectedPayees[index]);
+                    
+                    
+                  },
+                  key: itemKey,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    width: 200,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: const Color.fromARGB(71, 158, 158, 158),
+                    ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Payors Name'),
-                            ],
-                          ),
-                          const Spacer(),
-                          Container(
-                            width: 100,
-                            height: 30,
-                            color: Colors.amber,
-                            child: Obx(() {
-                              return TextField(
-                                textAlign: TextAlign.center,
-                                readOnly:
-                                    controller.selectedDivider.value == 0
-                                        ? true
-                                        : false,
-                                controller:
-                                    controller.subtotalController.value,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: -1),
-                              );
-                            }),
-                          )
-                        ],
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(8),
-                          height: 50,
-                          color: AppColors.white,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: Container(
-                                    color: Color.fromARGB(255, 27, 194, 150),
-                                    child: Obx(() {
-                                      return TextField(
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                        readOnly:
-                                            controller.selectedDivider.value ==
-                                                    0
-                                                ? true
-                                                : false,
-                                        textAlign: TextAlign.center,
-                                        controller: controller
-                                            .percentageController.value,
-                                        onChanged: (value) {
-                                          controller.percentageController;
-                                        },
-                                      );
-                                    }),
-                                  )),
-                              Expanded(
-                                flex: 6,
-                                child: SizedBox(
-                                  child: Obx(() {
-                                    return Slider(
-                                      min: 0.0,
-                                      max: 100.0,
-                                      key: itemKey,
-                                      value: controller.sliderValue.value,
-                                      onChanged:
-                                          controller.selectedDivider.value == 1
-                                              ? (value) {
-                                                  controller.sliderValue.value =
-                                                      value;
-                                                }
-                                              : null,
-                                    );
-                                  }),
-                                ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Obx(
+                                    () {
+                                      return Text ('${payeecontroller.selectedPayees[index].name}');
+                                    }
+                                  )
+                                ],
+                              ),
+                              const Spacer(),
+                              Container(
+                                width: 100,
+                                height: 30,
+                                color: Colors.amber,
+                                child: Obx(() {
+                                  return TextField(
+                                    textAlign: TextAlign.center,
+                                    readOnly:
+                                        controller.selectedDivider.value == 0
+                                            ? true
+                                            : false,
+                                    controller:
+                                        controller.subtotalController.value,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: -1),
+                                  );
+                                }),
                               )
                             ],
-                          ))
-                    ]),
-              ));
-        },
+                          ),
+                          Container(
+                              padding: const EdgeInsets.all(8),
+                              height: 50,
+                              color: AppColors.white,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                      flex: 2,
+                                      child: Container(
+                                        color: Color.fromARGB(255, 27, 194, 150),
+                                        child: Obx(() {
+                                          return TextField(
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold),
+                                            readOnly:
+                                                controller.selectedDivider.value ==
+                                                        0
+                                                    ? true
+                                                    : false,
+                                            textAlign: TextAlign.center,
+                                            controller: controller
+                                                .percentageController.value,
+                                            onChanged: (value) {
+                                              controller.percentageController;
+                                            },
+                                          );
+                                        }),
+                                      )),
+                                  Expanded(
+                                    flex: 6,
+                                    child: SizedBox(
+                                      child: Obx(() {
+                                        return Slider(
+                                          min: 0.0,
+                                          max: 100.0,
+                                          key: itemKey,
+                                          value: controller.sliderValue.value,
+                                          onChanged:
+                                              controller.selectedDivider.value == 1
+                                                  ? (value) {
+                                                      controller.sliderValue.value =
+                                                          value;
+                                                    }
+                                                  : null,
+                                        );
+                                      }),
+                                    ),
+                                  )
+                                ],
+                              ))
+                        ]),
+                  ));
+            },
+          );
+        }
       ),
     );
   }

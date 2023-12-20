@@ -16,6 +16,15 @@ class ContactsScreenController extends GetxController {
     getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
   }
 
+
+   @override
+  void onReady() {
+    super.onReady();
+    fetchProfile();
+    getContacts('https://run.mocky.io/v3/4ac2127e-eedd-4659-b878-14b319fa2b76');
+  }
+
+
   fetchProfile() async {
     try {
       List<Contact> returnValue = await getContacts(
@@ -48,6 +57,7 @@ class ContactsScreenController extends GetxController {
     if (!selectedPayees.contains(payees)) {
       selectedPayees.add(payees);
       print('selected $selectedPayees');
+      update();
     }
   }
 
@@ -55,4 +65,13 @@ class ContactsScreenController extends GetxController {
     numofPayees.value = selectedPayees.length;
     print('num of payees $numofPayees');
   }
+
+
+  removePayee (Contact payee){
+    final payeeIndex= selectedPayees.indexOf(payee);
+    selectedPayees.remove(payee);
+
+ 
+
+}
 }
