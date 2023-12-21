@@ -58,8 +58,9 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryBase,
+        leading: Icon(Icons.arrow_back),
         title: const Text(
-          'Split Bill Evenly',
+          'Split Bill',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
@@ -236,6 +237,20 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             return Dismissible(
                 onDismissed: (direction) {
                   controller.listOfPayees.removeAt(index);
+                  controller.calculate(
+                      controller.totalAmount.value, controller.listOfPayees);
+                  controller.listOfTextEditingConttoller.value = controller
+                      .generateTextEditingController(controller.listOfPayees);
+                  controller.amountController.value.text =
+                      controller.totalAmount.value;
+                  controller.amountController.value.text =
+                      controller.totalAmount.value;
+                  controller.calculateSliderValue(
+                    amount: controller.totalAmount.value,
+                    numberOfPayees: controller.listOfPayees.length,
+                  );
+                  controller.update();
+
                   // if (controller.payeeController?.selectedPayees == null) {
                   //   controller.payeeController?.removePayee(
                   //       controller.payeeController!.selectedPayees[index]);
