@@ -13,10 +13,10 @@ class DebitScreenView extends GetView<DebitScreenController> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-     if (argumentAmount != null) {
+    if (argumentAmount != null) {
       controller.amountToSplit.value = argumentAmount;
     }
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select a transaction',
@@ -51,12 +51,7 @@ class DebitScreenView extends GetView<DebitScreenController> {
                         onTap: () {
                           controller.selectBill(bill);
                           Get.offAllNamed(Routes.BILL_SPLITTER_SCREEN,
-                          arguments: {
-                            'billAmount':controller.amountToSplit
-                          }
-                          );
-
-                        
+                              arguments: {'billAmount': bill.amount});
                         },
                         child: Obx(() {
                           return Container(
@@ -64,10 +59,9 @@ class DebitScreenView extends GetView<DebitScreenController> {
                             width: 200,
                             padding: EdgeInsets.fromLTRB(16, 8, 4, 16),
                             decoration: BoxDecoration(
-                                color:
-                                    controller.billtoPay.contains(bill)
-                                        ? AppColors.primaryBase
-                                        : AppColors.secondary,
+                                color: controller.billtoPay.contains(bill)
+                                    ? AppColors.primaryBase
+                                    : AppColors.secondary,
                                 borderRadius: BorderRadius.circular(12)),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -77,7 +71,9 @@ class DebitScreenView extends GetView<DebitScreenController> {
                                 Expanded(
                                     flex: 2,
                                     child: Text(
-                                      controller.listOfDebitTransactions[index].amount.toStringAsFixed(2),
+                                      controller
+                                          .listOfDebitTransactions[index].amount
+                                          .toStringAsFixed(2),
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 20,
@@ -92,7 +88,7 @@ class DebitScreenView extends GetView<DebitScreenController> {
                                             color: Colors.black,
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold))),
-                                 Expanded(
+                                Expanded(
                                     flex: 1,
                                     child: Text(
                                         '${controller.listOfDebitTransactions[index].date}',

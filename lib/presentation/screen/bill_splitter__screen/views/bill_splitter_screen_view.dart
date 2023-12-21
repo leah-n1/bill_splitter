@@ -18,22 +18,25 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
   Widget build(BuildContext context) {
     if (arguments != null) {
       if (arguments is Map) {
-        var payees = arguments['payees'] as RxList<Contact>;
-        var amount = arguments['amount'] as RxString;
-        var payable = arguments['billAmount'] as RxDouble;
-        controller.listOfPayees = payees;
-        controller.totalAmounttoSplit = payable;
+        var payable = arguments['billAmount'] as double;
+        controller.totalAmounttoSplit.value = payable;
+        controller.updateTotalAmount(payable.toString());
+        if (arguments['payees'] != null) {
+          var payees = arguments['payees'] as RxList<Contact>;
+          //  var amount = arguments['amount'] as RxString;
+          controller.listOfPayees = payees;
 
+          controller.calculate(controller.totalAmount.value, payees);
+          controller.listOfTextEditingConttoller.value =
+              controller.generateTextEditingController(payees);
 
-        controller.calculate(amount.value, payees);
-        controller.listOfTextEditingConttoller.value =
-            controller.generateTextEditingController(payees);
+          controller.updateTotalAmount(controller.totalAmount.value);
+          controller.amountController.value.text = controller.totalAmount.value;
+          controller.calculateSliderValue(
+              amount: controller.totalAmount.value,
+              numberOfPayees: controller.listOfPayees.length);
+        }
 
-        controller.updateTotalAmount(amount.value);
-        controller.amountController.value.text = amount.value;
-        controller.calculateSliderValue(
-            amount: amount.value,
-            numberOfPayees: controller.listOfPayees.length);
         // controller.totalAmount = amount;
         // controller.updateTotalAmount(amount.value);
         //controller.updateTotalAmount(amount.value);
@@ -55,8 +58,9 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primaryBase,
+        leading: Icon(Icons.arrow_back),
         title: const Text(
-          'Split Bill Evenly',
+          'Split Bill',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
@@ -116,8 +120,7 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
                       child: InkWell(
                         onTap: () {
                           Get.toNamed(Routes.CONTACTS_SCREEN,
-                              arguments:
-                                  controller.amountController.value.text);
+                              arguments: controller.totalAmounttoSplit.value);
                         },
                         child: Image.asset('assets/images/expandarrowdown.png',
                             height: 16),
@@ -180,7 +183,9 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             children: [
               const Text('Total Amount to Pay',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
-              Text('${controller.totalAmounttoSplit}',style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40)),
+              Text('${controller.totalAmounttoSplit}',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 40)),
               // Obx(() {
               //   return
 
@@ -193,8 +198,6 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
               //   onChanged: (value) {
               //     print('value updatwd $value');
               //     controller.updateTotalAmount(value);
-
-                
 
               //     // controller.amountController.value.text = '';
               //     // String formattedValue = NumberFormat.decimalPattern()
@@ -234,6 +237,20 @@ class BillSplitterScreenView extends GetView<BillSplitterScreenController> {
             return Dismissible(
                 onDismissed: (direction) {
                   controller.listOfPayees.removeAt(index);
+                  controller.calculate(
+                      controller.totalAmount.value, controller.listOfPayees);
+                  controller.listOfTextEditingConttoller.value = controller
+                      .generateTextEditingController(controller.listOfPayees);
+                  controller.amountController.value.text =
+                      controller.totalAmount.value;
+                  controller.amountController.value.text =
+                      controller.totalAmount.value;
+                  controller.calculateSliderValue(
+                    amount: controller.totalAmount.value,
+                    numberOfPayees: controller.listOfPayees.length,
+                  );
+                  controller.update();
+
                   // if (controller.payeeController?.selectedPayees == null) {
                   //   controller.payeeController?.removePayee(
                   //       controller.payeeController!.selectedPayees[index]);

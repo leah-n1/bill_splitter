@@ -1,5 +1,3 @@
-
-
 import 'package:get/get.dart';
 import '../../../../data/model/contact.dart';
 import '../../../../data/provider/network/auth_provider.dart';
@@ -8,7 +6,7 @@ class ContactsScreenController extends GetxController {
   RxList<Contact> listOfcontacts = <Contact>[].obs;
   RxList<Contact> selectedPayees = <Contact>[].obs;
   RxInt numofPayees = 0.obs;
-  RxString amount = ''.obs;
+  double amount = 0.0;
 
   // @override
   // void onInit() {

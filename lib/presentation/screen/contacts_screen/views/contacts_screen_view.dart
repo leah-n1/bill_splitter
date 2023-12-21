@@ -14,7 +14,7 @@ class ContactsScreenView extends GetView<ContactsScreenController> {
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     if (argumentAmount != null) {
-      controller.amount.value = argumentAmount;
+      controller.amount = argumentAmount;
     }
     return Scaffold(
       appBar: AppBar(
@@ -23,7 +23,7 @@ class ContactsScreenView extends GetView<ContactsScreenController> {
               Get.offAllNamed(
                 Routes.BILL_SPLITTER_SCREEN,
                 arguments: {
-                  'amount': controller.amount,
+                  'billAmount': controller.amount,
                   'payees': controller.selectedPayees
                 },
               );

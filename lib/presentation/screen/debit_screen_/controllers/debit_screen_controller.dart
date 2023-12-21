@@ -6,7 +6,7 @@ import '../../../../data/provider/network/auth_provider.dart';
 class DebitScreenController extends GetxController {
   RxList<Transaction> listOfTransactions = <Transaction>[].obs;
   RxList<Transaction> listOfDebitTransactions = <Transaction>[].obs;
-  RxList<Transaction>  billtoPay=<Transaction>[].obs;
+  RxList<Transaction> billtoPay = <Transaction>[].obs;
   RxList<Transaction> selectedBill = <Transaction>[].obs;
   RxDouble amountToSplit = 0.00.obs;
 
@@ -64,22 +64,20 @@ class DebitScreenController extends GetxController {
         transactions.where((transaction) => transaction.type == type).toList();
 
     listOfDebitTransactions.assignAll(debitTransactions);
-       print(debitTransactions);
+    print(debitTransactions);
   }
 
-selectBill(Transaction bill) {
-  if (!billtoPay.contains(bill)) {
-    billtoPay.clear(); 
-    billtoPay.add(bill); 
-    print('selected $billtoPay');
-    update();
+  selectBill(Transaction bill) {
+    if (!billtoPay.contains(bill)) {
+      billtoPay.clear();
+      billtoPay.add(bill);
+      print('selected $billtoPay');
+
+      update();
+    }
   }
-}
 
 // removeBill (Transaction bill){
 //     final billIndex= selectedBill.indexOf(bill);
 //     selectedBill.remove(bill);
-
-
 }
-
